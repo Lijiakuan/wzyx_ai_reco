@@ -1,0 +1,31 @@
+version: '2'
+
+networks:
+    dev-env:
+        external: true
+        
+services:
+    prometheus:
+        image: neo4j:4.4.8-community
+        container_name: neo4j
+        hostname: neo4j
+        restart: always
+        environment:
+            - NEO4J_AUTH=neo4j/wzyx28l23nf2DD
+            - NEO4J_dbms_default__database=hypertension
+            - NEO4J_dbms_db_timezone=SYSTEM
+            - NEO4J_db_temporal_timezone=Asia/Shanghai
+        volumes:
+            # TODO mkdirs
+            - /home/servers/neo4j/files:/files
+            - /home/servers/neo4j/data:/data
+            - /home/servers/neo4j/logs:/logs
+            - /home/servers/neo4j/conf:/var/lib/neo4j/conf
+            - /home/servers/neo4j/import:/var/lib/neo4j/import
+        privileged: true
+        user: root
+        ports:
+            - "7474:7474"
+            - "7687:7687"
+        networks:
+            - dev-env
